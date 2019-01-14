@@ -1,7 +1,7 @@
 type Task {
   taskId: String!
-  createdAt: Int!
-  lastModifiedAt: Int!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
 }
 
 type Query {

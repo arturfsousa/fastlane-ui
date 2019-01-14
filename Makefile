@@ -34,6 +34,7 @@ endif
 
 run-api: deps
 	@echo "Starting the api server..."
+	@yarn --cwd ${API_PATH} start
 
 run-client: deps
 	@echo "Starting the client dev server..."

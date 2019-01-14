@@ -12,7 +12,9 @@
     "start": "nodemon --exec ts-node index.ts"
   },
   "dependencies": {
+    "graphql-iso-date": "^3.6.1",
     "graphql-yoga": "^1.16.9",
+    "isomorphic-fetch": "^2.2.1",
     "merge-graphql-schemas": "^1.5.8"
   },
   "devDependencies": {
