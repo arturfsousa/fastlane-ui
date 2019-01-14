@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "10101:27017"
+    volumes:
+      - /tmp/fastlane-ui/mongo:/data/db
+  redis:
+    image: redis
+    ports:
+      - "10100:6379"
+    volumes:
+      - /tmp/fastlane-ui/redis:/data
+  docker-host:
+    image: docker:stable-dind
+    privileged: true
+  fastlane:
+    image: heynemann/fastlane
+    ports:
+      - "10000:10000"
+    environment:
+      - DOCKER_HOSTS=[{"match":"","hosts":["docker-host:2375"],"maxRunning":2}]
+    depends_on:
+      - mongo
+      - redis
+      - docker-host
