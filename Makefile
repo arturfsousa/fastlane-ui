@@ -38,3 +38,11 @@ run-api: deps
 run-client: deps
 	@echo "Starting the client dev server..."
 	@yarn --cwd ${CLIENT_PATH} start
+
+test-client:
+	@echo "Testing client code..."
+	@yarn --cwd ${CLIENT_PATH} test
+
+test-api:
+	@echo "Testing api code..."
+	@yarn --cwd ${API_PATH} test

@@ -1,7 +1,12 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "description": "Fastlane UI client application",
   "private": true,
+  "engines": {
+    "node": ">=10.13.0",
+    "yarn": ">=1.0.0"
+  },
   "dependencies": {
     "@types/jest": "23.3.12",
     "@types/node": "10.12.18",
