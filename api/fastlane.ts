@@ -1,22 +1,22 @@
-require('isomorphic-fetch');
+import 'isomorphic-fetch'
 
 class FastlaneClient {
-  apiUrl = '';
+  public apiUrl = ''
 
   constructor() {
-    this.apiUrl = process.env.FASTLANE_API_URL || "http://localhost:10000";
+    this.apiUrl = process.env.FASTLANE_API_URL || 'http://localhost:10000'
   }
 
-  async request(url) {
-    const res = await fetch(url);
-    return await res.json();
+  public async getTasks() {
+    const url = `${this.apiUrl}/tasks`
+    const data = await this.request(url)
+    return data.items
   }
 
-  async getTasks() {
-    const url = `${this.apiUrl}/tasks`;
-    const data = await this.request(url);
-    return data.items;
+  private async request(url) {
+    const res = await fetch(url)
+    return await res.json()
   }
 }
 
-module.exports = { FastlaneClient };
+module.exports = { FastlaneClient }

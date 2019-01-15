@@ -6,6 +6,10 @@ COMPOSE := $(shell command -v docker-compose 2> /dev/null)
 
 setup:
 	@echo "Setup node deps..."
+	@echo
+	@echo "======================================================================================="
+	@echo "Remember to add tslint and typescript as globals with yarn global add typescript tslint"
+	@echo "======================================================================================="
 	@yarn --cwd ${API_PATH} install
 	@yarn --cwd ${CLIENT_PATH} install
 
@@ -47,3 +51,6 @@ test-client:
 test-api:
 	@echo "Testing api code..."
 	@yarn --cwd ${API_PATH} test
+
+lint:
+	@tslint "**/*.ts" -e "node_modules/**/*" -e "**/node_modules/**/*"
