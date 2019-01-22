@@ -1,6 +1,5 @@
 {
   "scripts": {
-    "precommit": "lint-staged",
     "lint": "tslint **/*.{ts,tsx} --exclude \"**/{node_modules,dist}/**/*\""
   },
   "devDependencies": {
@@ -16,5 +15,10 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
