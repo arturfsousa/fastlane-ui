@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "precommit": "lint-staged",
     "lint": "tslint \"**/*.ts\" -e \"node_modules/**/*\" -e \"**/node_modules/**/*\""
   },
   "devDependencies": {
