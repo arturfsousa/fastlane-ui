@@ -1,7 +1,7 @@
 {
   "scripts": {
     "precommit": "lint-staged",
-    "lint": "tslint \"**/*.ts\" -e \"node_modules/**/*\" -e \"**/node_modules/**/*\""
+    "lint": "tslint **/*.{ts,tsx} --exclude \"**/{node_modules,dist}/**/*\""
   },
   "devDependencies": {
     "husky": "^1.3.1",

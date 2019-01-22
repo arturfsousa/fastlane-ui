@@ -1,7 +1,8 @@
 import 'isomorphic-fetch'
+declare const fetch: any
 
-class FastlaneClient {
-  public apiUrl = ''
+export class FastlaneClient {
+  private apiUrl = ''
 
   constructor() {
     this.apiUrl = process.env.FASTLANE_API_URL || 'http://localhost:10000'
@@ -18,5 +19,3 @@ class FastlaneClient {
     return await res.json()
   }
 }
-
-module.exports = { FastlaneClient }

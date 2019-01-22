@@ -1,8 +1,6 @@
 {
   "defaultSeverity": "error",
-  "extends": [
-    "tslint:recommended"
-  ],
+  "extends": ["tslint:recommended"],
   "jsRules": {},
   "rules": {
     "quotemark": [true, "single", "avoid-escape", "avoid-template"],
@@ -11,10 +9,7 @@
     "no-console": [true, "warn"]
   },
   "linterOptions": {
-    "exclude": [
-      "api/node_modules",
-      "client/node_modules"
-    ]
+    "exclude": ["**/{node_modules,dist}/**/*"]
   },
   "rulesDirectory": []
 }

@@ -7,9 +7,11 @@
     "node": ">=10.13.0",
     "yarn": ">=1.0.0"
   },
-  "main": "index.js",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "start": "nodemon --exec ts-node index.ts"
+    "build": "rm -rf dist && tsc -d",
+    "start": "nodemon --exec ts-node src/index.ts"
   },
   "dependencies": {
     "graphql-iso-date": "^3.6.1",
