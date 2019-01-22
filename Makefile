@@ -33,13 +33,16 @@ ifdef COMPOSE
 	@echo "Dependencies stopped successfully"
 endif
 
-run-api: deps
+run-api: stop-deps deps
 	@echo "Starting the api server..."
 	@yarn --cwd ${API_PATH} start
 
-run-client: deps
+run-client:
 	@echo "Starting the client dev server..."
 	@yarn --cwd ${CLIENT_PATH} start
+
+run:
+	@yarn start
 
 test-client:
 	@echo "Testing client code..."
@@ -51,4 +54,4 @@ test-api:
 
 lint:
 	@echo "Linting..."
-	yarn lint
+	@yarn lint
