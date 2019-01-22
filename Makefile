@@ -52,6 +52,10 @@ test-api:
 	@echo "Testing api code..."
 	@yarn --cwd ${API_PATH} test
 
+test:
+	@$(MAKE) CI=true test-client
+	@$(MAKE) CI=true test-api
+
 lint:
 	@echo "Linting..."
 	@yarn lint
