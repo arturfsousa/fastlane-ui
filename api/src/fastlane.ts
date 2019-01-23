@@ -2,7 +2,7 @@ import 'isomorphic-fetch'
 declare const fetch: any
 
 export class FastlaneClient {
-  public apiUrl = ''
+  private apiUrl = ''
 
   constructor() {
     this.apiUrl = process.env.FASTLANE_API_URL || 'http://localhost:10000'

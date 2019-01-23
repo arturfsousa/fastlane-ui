@@ -59,3 +59,8 @@ test:
 lint:
 	@echo "Linting..."
 	@yarn lint
+
+build:
+	@echo "Building files..."
+	@yarn --cwd ${CLIENT_PATH} build
+	@yarn --cwd ${API_PATH} build
