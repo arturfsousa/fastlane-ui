@@ -1,0 +1,28 @@
+.FastlaneUI-Header {
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  border-bottom: 1px solid #eee;
+  box-shadow: 1px 2px 4px 0 rgba(0,0,0,.03);
+  margin-bottom: 50px;
+}
+
+.FastlaneUI-Header__Nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.FastlaneUI-Header__Logo {
+ padding-top: 10px;
+}
+
+.FastlaneUI-Header__Logo__Img {
+  width: 115px;
+}
+
+.FastlaneUI-Header__Nav__Search {
+  padding: 0 20px;
+}

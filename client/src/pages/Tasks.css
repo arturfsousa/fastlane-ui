@@ -1,0 +1,17 @@
+.Fastlane-NoResults {
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 300px;
+  font-size: 28px;
+}
+
+.Fastlane-NoResults__Message {
+
+}
+
+.Fastlane-NoResults__Message__Actions {
+  margin-top: 20px;
+}
