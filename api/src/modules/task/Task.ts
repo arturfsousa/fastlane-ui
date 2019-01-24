@@ -6,8 +6,8 @@ export class Task {
   public taskId: string
 
   @Field()
-  public createdAt: string
+  public createdAt: Date
 
   @Field()
-  public lastModifiedAt: string
+  public lastModifiedAt: Date
 }

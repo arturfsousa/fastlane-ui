@@ -1,9 +1,0 @@
-type Task {
-  taskId: String!
-  createdAt: DateTime!
-  lastModifiedAt: DateTime!
-}
-
-type Query {
-  tasks: [Task!]!
-}
