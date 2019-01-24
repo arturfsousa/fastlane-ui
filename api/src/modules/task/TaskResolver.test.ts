@@ -14,11 +14,11 @@ describe('TaskResolver', () => {
   test('get tasks', async () => {
     const task = {
       taskId: 'some-task',
-      createdAt: '123123123',
-      lastModifiedAt: '109019201',
+      createdAt: 1548344092.098,
+      lastModifiedAt: 1548344092.098,
     }
 
-    const { data } = await graphCall({
+    const resp = await graphCall({
       source: tasksQuery,
       fastlaneClient: {
         get: jest.fn().mockResolvedValue({
