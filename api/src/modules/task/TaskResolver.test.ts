@@ -18,7 +18,7 @@ describe('TaskResolver', () => {
       lastModifiedAt: 1548344092.098,
     }
 
-    const resp = await graphCall({
+    const { data } = await graphCall({
       source: tasksQuery,
       fastlaneClient: {
         get: jest.fn().mockResolvedValue({
