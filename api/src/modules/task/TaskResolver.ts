@@ -6,6 +6,7 @@ import { Task } from './Task'
 export class TaskResolver {
   @Query(() => [Task])
   public async tasks(@Ctx() { fastlaneClient }: AppContext): Promise<Task[]> {
-    return await fastlaneClient.getTasks()
+    const { items } = await fastlaneClient.get('tasks')
+    return items
   }
 }
