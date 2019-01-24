@@ -15,7 +15,7 @@ const main = async () => {
   const app = express()
   apolloServer.applyMiddleware({ app })
 
-  const appPort = process.env.PORT || 4000
+  const appPort = process.env.API_PORT || 4000
   app.listen(appPort, () => {
     console.log(
       `FastlaneUI server is running ⚡ on http://localhost:${appPort}`,

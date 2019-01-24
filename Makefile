@@ -33,7 +33,7 @@ ifdef COMPOSE
 	@echo "Dependencies stopped successfully"
 endif
 
-run-api: stop-deps deps
+run-api: deps
 	@echo "Starting the api server..."
 	@yarn --cwd ${API_PATH} start
 
