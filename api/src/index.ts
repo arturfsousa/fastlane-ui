@@ -1,18 +1,24 @@
-import { GraphQLServer } from 'graphql-yoga'
-import { default as resolvers } from './resolvers'
-import { default as typeDefs } from './typeDefs'
+import { ApolloServer } from 'apollo-server-express'
+import * as express from 'express'
+import 'reflect-metadata'
+import { buildSchema } from 'type-graphql'
+import { TaskResolver } from './modules/task/TaskResolver'
 
-const options = { port: 4004 }
+const main = async () => {
+  const schema = await buildSchema({
+    resolvers: [TaskResolver],
+  })
 
-const server = new GraphQLServer({
-  resolvers,
-  typeDefs,
-})
+  const apolloServer = new ApolloServer({ schema })
+  const app = express()
+  apolloServer.applyMiddleware({ app })
 
-server
-  .start(options, () =>
+  const appPort = process.env.PORT || 4000
+  app.listen(appPort, () => {
     console.log(
-      `Fastlane UI server is running ⚡ on localhost:${options.port}`,
-    ),
-  )
-  .catch(err => console.error('Connection error', err))
+      `FastlaneUI server is running ⚡ on http://localhost:${appPort}`,
+    )
+  })
+}
+
+main()

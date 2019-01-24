@@ -6,7 +6,11 @@
     "rootDir": "src",
     "outDir": "dist",
     "sourceMap": true,
-    "lib": ["es2017", "esnext.asynciterable"]
+    "lib": ["es2017", "esnext.asynciterable"],
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
-  "include": ["src"]
+  "exclude": ["node_modules"],
+  "include": ["src/**/*.ts"]
 }
