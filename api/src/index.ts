@@ -1,15 +1,11 @@
 import { ApolloServer } from 'apollo-server-express'
 import express from 'express'
 import 'reflect-metadata'
-import { buildSchema } from 'type-graphql'
 import { FastlaneClient } from './fastlane'
-import { TaskResolver } from './modules/task/TaskResolver'
+import { createSchema } from './schema'
 
 const main = async () => {
-  const schema = await buildSchema({
-    resolvers: [TaskResolver],
-  })
-
+  const schema = await createSchema()
   const apolloServer = new ApolloServer({
     schema,
     context: () => ({
