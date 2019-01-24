@@ -13,22 +13,33 @@ export class FastlaneClient {
     return response
   }
 
-  public async post(path: string, body: object = {}): Promise<Response> {
-    return await this.fetch(path, { method: 'POST', body })
+  public async post(path: string, body: string): Promise<Response> {
+    return await this.fetch(path, {
+      method: 'POST',
+      body,
+      headers: { 'Content-Type': 'application/json' },
+    })
   }
 
-  public async put(path: string, body: object = {}): Promise<Response> {
-    return await this.fetch(path, { method: 'PUT', body })
+  public async put(path: string, body: string): Promise<Response> {
+    return await this.fetch(path, {
+      method: 'PUT',
+      body,
+      headers: { 'Content-Type': 'application/json' },
+    })
   }
 
   public async fetch(
     path: string,
-    init: object = {},
-    qs: object = {},
+    init: any = {},
+    qs: any = {},
   ): Promise<Response> {
     const url = new URL(`${this.apiUrl}/${path}/`)
     Object.keys(qs).forEach(key => url.searchParams.append(key, qs[key]))
 
+    console.log(
+      `Submitting ${init.method} to ${url} (request body: ${init.body})...`,
+    )
     return await fetch(url.toString(), init)
   }
 }
