@@ -11,7 +11,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc && copyfiles -u 1 src/**/**/*.{graphql,json} dist/",
-    "start": "nodemon --exec ts-node src/index.ts",
+    "start": "ts-node-dev --respawn --no-notify src/index.ts",
     "test": "jest",
     "serve": "node dist/index.js"
   },
@@ -36,6 +36,7 @@
     "rimraf": "^2.6.3",
     "ts-jest": "^23.10.5",
     "ts-node": "^8.0.1",
+    "ts-node-dev": "^1.0.0-pre.32",
     "typescript": "^3.2.4"
   },
   "jest": {

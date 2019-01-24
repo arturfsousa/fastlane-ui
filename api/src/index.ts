@@ -1,7 +1,8 @@
 import { ApolloServer } from 'apollo-server-express'
-import * as express from 'express'
+import express from 'express'
 import 'reflect-metadata'
 import { buildSchema } from 'type-graphql'
+import { FastlaneClient } from './fastlane'
 import { TaskResolver } from './modules/task/TaskResolver'
 
 const main = async () => {
@@ -9,7 +10,12 @@ const main = async () => {
     resolvers: [TaskResolver],
   })
 
-  const apolloServer = new ApolloServer({ schema })
+  const apolloServer = new ApolloServer({
+    schema,
+    context: () => ({
+      fastlaneClient: new FastlaneClient(),
+    }),
+  })
   const app = express()
   apolloServer.applyMiddleware({ app })
 

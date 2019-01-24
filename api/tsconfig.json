@@ -9,7 +9,9 @@
     "lib": ["es2017", "esnext.asynciterable"],
 
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": ["node_modules"],
   "include": ["src/**/*.ts"]
