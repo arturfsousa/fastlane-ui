@@ -28,6 +28,10 @@ describe('TaskResolver', () => {
     })
 
     expect(data.tasks).toHaveLength(1)
-    expect(data.tasks[0]).toMatchObject(task)
+    expect(data.tasks[0]).toMatchObject({
+      taskId: task.taskId,
+      createdAt: new Date(task.createdAt * 1000).toISOString(),
+      lastModifiedAt: new Date(task.lastModifiedAt * 1000).toISOString(),
+    })
   })
 })
