@@ -5,7 +5,7 @@ import { AppProvider } from '@shopify/polaris'
 import { Router, RouteComponentProps } from '@reach/router'
 
 import TasksPage from './pages/Tasks/TasksPage'
-// import TaskEnqueuePage from './pages/Tasks/TaskEnqueuePage'
+import TaskEnqueuePage from './pages/Tasks/TaskEnqueuePage'
 
 import './index.css'
 import '@shopify/polaris/styles.css'
@@ -25,7 +25,7 @@ class App extends Component {
           <div className="FastlaneUI">
             <Router>
               <Page path="/" pageComponent={<TasksPage />} />
-              <Page path="/enqueue" pageComponent={<div>enqueue page</div>} />
+              <Page path="/enqueue" pageComponent={<TaskEnqueuePage />} />
             </Router>
           </div>
         </AppProvider>
