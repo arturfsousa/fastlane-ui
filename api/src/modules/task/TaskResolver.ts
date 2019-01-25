@@ -21,6 +21,32 @@ import { NewJobInput } from '../job/JobInput'
 import { Task } from './Task'
 
 @ObjectType()
+export class TaskResponse {
+  public static FromAPI(taskId: string, data: Json): TaskResponse {
+    const resp = new TaskResponse()
+
+    const jobs: Job[] = []
+    for (const item of data.jobs) {
+      jobs.push(Job.FromAPI(taskId, item))
+    }
+
+    resp.jobsCount = jobs.length
+    resp.jobs = jobs
+    resp.taskId = taskId
+
+    return resp
+  }
+
+  @Field()
+  public taskId: string
+
+  @Field()
+  public jobsCount: number
+
+  @Field(type => [Job])
+  public jobs: Job[]
+}
+@ObjectType()
 export class TasksResponse {
   public static FromAPI(data: Json): TasksResponse {
     const resp = new TasksResponse()
@@ -158,6 +184,28 @@ export class TaskResolver implements ResolverInterface<Task> {
 
     const data = await response.json()
     return TasksResponse.FromAPI(data)
+  }
+
+  @Query(() => TaskResponse)
+  public async task(
+    @Ctx() { fastlaneClient }: AppContext,
+    @Arg('taskId') taskId: string,
+  ): Promise<TaskResponse> {
+    const tasks: Task[] = []
+    const response = await fastlaneClient.get(`tasks/${taskId}`)
+    if (response.status !== 200) {
+      console.log(
+        `Response returned status ${
+          response.status
+        } and text ${await response.text()}`,
+      )
+      return TaskResponse.FromAPI(taskId, {
+        jobs: [],
+      })
+    }
+
+    const data = await response.json()
+    return TaskResponse.FromAPI(taskId, data)
   }
 
   @Query(() => TasksResponse)
