@@ -17,7 +17,9 @@ class App extends Component {
     return (
       <ApolloProvider client={client}>
         <AppProvider>
-          <Tasks />
+          <div className="FastlaneUI">
+            <Tasks />
+          </div>
         </AppProvider>
       </ApolloProvider>
     )

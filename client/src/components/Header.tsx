@@ -33,7 +33,7 @@ const Header = () => (
         />
       </div>
       <div className="FastlaneUI-Header__Nav__Actions">
-        <Button primary={true}>Actions</Button>
+        <Button primary={true}>Create new task</Button>
       </div>
     </nav>
   </header>
