@@ -108,9 +108,7 @@ export class TaskResolver implements ResolverInterface<Task> {
     @Ctx() { fastlaneClient }: AppContext,
   ): Promise<TaskEnqueueResponse> {
     const req: Json = {
-      taskId: newJobData.taskId,
-      image: newJobData.image,
-      command: newJobData.command,
+      ...newJobData,
     }
 
     let response: Response
