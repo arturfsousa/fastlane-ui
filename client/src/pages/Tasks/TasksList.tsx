@@ -1,7 +1,7 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { ChildDataProps, graphql } from 'react-apollo'
-import { Card, DataTable, Link, Page } from '@shopify/polaris'
+import { Card, DataTable, Link } from '@shopify/polaris'
 import NoResults from '../../components/NoResults'
 
 const tasksQuery = gql`

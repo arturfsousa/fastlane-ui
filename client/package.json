@@ -8,6 +8,7 @@
     "yarn": ">=1.0.0"
   },
   "dependencies": {
+    "@reach/router": "^1.2.1",
     "@shopify/polaris": "^3.5.0",
     "@types/jest": "23.3.12",
     "@types/node": "10.12.18",
@@ -38,6 +39,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@types/reach__router": "^1.2.3",
     "tslint-react": "^3.6.0"
   }
 }

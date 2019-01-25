@@ -1,5 +1,7 @@
 import React from 'react'
 import { Autocomplete, Button, Icon } from '@shopify/polaris'
+import { Link } from '@reach/router'
+
 import logo from '../fastlane.svg'
 import './Header.css'
 
@@ -17,11 +19,13 @@ const textField = (
 const Header = () => (
   <header className="FastlaneUI-Header">
     <div className="FastlaneUI-Header__Logo">
-      <img
-        src={logo}
-        className="FastlaneUI-Header__Logo__Img"
-        alt="Fastlane logo"
-      />
+      <Link to="/">
+        <img
+          src={logo}
+          className="FastlaneUI-Header__Logo__Img"
+          alt="Fastlane logo"
+        />
+      </Link>
     </div>
     <nav className="FastlaneUI-Header__Nav">
       <div className="FastlaneUI-Header__Nav__Search">
@@ -33,7 +37,9 @@ const Header = () => (
         />
       </div>
       <div className="FastlaneUI-Header__Nav__Actions">
-        <Button primary={true}>Create new task</Button>
+        <Link to="/enqueue">
+          <Button primary={true}>Enqueue new job</Button>
+        </Link>
       </div>
     </nav>
   </header>
