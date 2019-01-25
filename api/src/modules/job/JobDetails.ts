@@ -18,31 +18,23 @@ export class JobDetails {
   public static FromAPI(
     taskId: string,
     jobId: string,
-    {
-      executionCount,
-      createdAt,
-      lastModifiedAt,
-      metadata,
-      executions,
-      requestIPAddress,
-      scheduled,
-    }: FromAPIArgs,
+    data: FromAPIArgs,
   ): JobDetails {
     const jobDetails = new JobDetails()
     jobDetails.taskId = taskId
     jobDetails.jobId = jobId
-    jobDetails.executionCount = executionCount
-    jobDetails.createdAt = createdAt
-    jobDetails.lastModifiedAt = new Date(lastModifiedAt)
-    jobDetails.metadata = metadata
-    jobDetails.requestIPAddress = requestIPAddress
-    jobDetails.scheduled = scheduled
+    jobDetails.executionCount = data.executionCount
+    jobDetails.createdAt = data.createdAt
+    jobDetails.lastModifiedAt = new Date(data.lastModifiedAt)
+    jobDetails.metadata = data.metadata
+    jobDetails.requestIPAddress = data.requestIPAddress
+    jobDetails.scheduled = data.scheduled
 
     const parsedExecutions: Execution[] = []
-    for (const jobExecutionData of executions) {
+    for (const jobExecutionData of data.executions) {
       parsedExecutions.push(Execution.FromAPI(taskId, jobId, jobExecutionData))
     }
-    jobDetails.executions = executions
+    jobDetails.executions = parsedExecutions
     return jobDetails
   }
 

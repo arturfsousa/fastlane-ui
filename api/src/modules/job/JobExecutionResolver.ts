@@ -13,16 +13,20 @@ import { Execution } from './JobExecution'
 
 @Resolver(of => Execution)
 export class JobExecutionResolver implements ResolverInterface<Execution> {
-  // @Query(() => Job)
-  // public async job(
-  // @Ctx() { fastlaneClient }: AppContext,
-  // @Arg('taskId') taskId?: string,
-  // @Arg('jobId') jobId?: string,
-  // ): Promise<Job> {
-  // const response = await fastlaneClient.get('tasks')
-  // const { items } = await response.json()
-  // return new Job()
-  // }
+  @Query(() => ExecutionDetails)
+  public async execution(
+    @Ctx() { fastlaneClient }: AppContext,
+    @Arg('taskId') taskId: string,
+    @Arg('jobId') jobId: string,
+    @Arg('executionId') executionId: string,
+  ): Promise<ExecutionDetails> {
+    const response = await fastlaneClient.get(
+      `tasks/${taskId}/jobs/${jobId}/executions/${executionId}`,
+    )
+    const { execution } = await response.json()
+    return ExecutionDetails.FromAPI(taskId, jobId, executionId, execution)
+  }
+
   @FieldResolver()
   public async details(
     @Root() rootExecution: Execution,

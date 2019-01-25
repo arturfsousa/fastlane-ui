@@ -14,16 +14,16 @@ import { Execution } from '../job/JobExecution'
 
 @Resolver(of => Job)
 export class JobResolver implements ResolverInterface<Job> {
-  // @Query(() => Job)
-  // public async job(
-  // @Ctx() { fastlaneClient }: AppContext,
-  // @Arg('taskId') taskId?: string,
-  // @Arg('jobId') jobId?: string,
-  // ): Promise<Job> {
-  // const response = await fastlaneClient.get('tasks')
-  // const { items } = await response.json()
-  // return new Job()
-  // }
+  @Query(() => JobDetails)
+  public async job(
+    @Ctx() { fastlaneClient }: AppContext,
+    @Arg('taskId') taskId: string,
+    @Arg('jobId') jobId: string,
+  ): Promise<JobDetails> {
+    const response = await fastlaneClient.get(`tasks/${taskId}/jobs/${jobId}`)
+    const { job } = await response.json()
+    return JobDetails.FromAPI(taskId, jobId, job)
+  }
 
   @FieldResolver()
   public async details(
@@ -42,13 +42,6 @@ export class JobResolver implements ResolverInterface<Job> {
       requestIPAddress,
       scheduled,
     } = job
-    console.log(
-      createdAt,
-      executionCount,
-      lastModifiedAt,
-      requestIPAddress,
-      scheduled,
-    )
 
     const jobDetails = new JobDetails()
     jobDetails.taskId = rootJob.taskId

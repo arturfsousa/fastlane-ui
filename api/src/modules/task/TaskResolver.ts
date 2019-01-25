@@ -7,6 +7,7 @@ import {
   Field,
   FieldResolver,
   InputType,
+  Int,
   Mutation,
   ObjectType,
   Query,
@@ -18,6 +19,50 @@ import { AppContext } from '../../types/AppContext'
 import { Job } from '../job/Job'
 import { NewJobInput } from '../job/JobInput'
 import { Task } from './Task'
+
+@ObjectType()
+export class TasksResponse {
+  public static FromAPI(data: Json): TasksResponse {
+    const resp = new TasksResponse()
+
+    const tasks: Task[] = []
+    for (const item of data.items) {
+      tasks.push(Task.FromAPI(item))
+    }
+
+    resp.items = tasks
+    resp.hasPrevPage = data.hasPrev
+    resp.prevPage = data.hasPrev ? data.page - 1 : data.page
+
+    resp.hasNextPage = data.hasNext
+    resp.nextPage = data.hasNext ? data.page + 1 : data.page
+
+    resp.totalPages = data.pages
+    resp.perPage = data.perPage
+    return resp
+  }
+
+  @Field()
+  public hasNextPage: boolean
+
+  @Field()
+  public nextPage: number
+
+  @Field()
+  public hasPrevPage: boolean
+
+  @Field()
+  public prevPage: number
+
+  @Field()
+  public totalPages: number
+
+  @Field()
+  public perPage: number
+
+  @Field(type => [Task])
+  public items: Task[]
+}
 
 @ObjectType()
 export class TaskEnqueueResponse {
@@ -85,17 +130,71 @@ export class TaskResolver implements ResolverInterface<Task> {
     return TaskEnqueueResponse.FromAPI(details)
   }
 
-  @Query(() => [Task])
-  public async tasks(@Ctx() { fastlaneClient }: AppContext): Promise<Task[]> {
-    const response = await fastlaneClient.get('tasks')
-    const { items } = await response.json()
-
-    const tasks: Task[] = []
-    for (const item of items) {
-      tasks.push(Task.FromAPI(item))
+  @Query(() => TasksResponse)
+  public async tasks(
+    @Ctx() { fastlaneClient }: AppContext,
+    @Arg('page', { nullable: true }) page?: number,
+  ): Promise<TasksResponse> {
+    let currentPage = 1
+    if (!!page) {
+      currentPage = page
     }
 
-    return tasks
+    const tasks: Task[] = []
+    const response = await fastlaneClient.get('tasks', { page: currentPage })
+    if (response.status !== 200) {
+      console.log(
+        `Response returned status ${
+          response.status
+        } and text ${await response.text()}`,
+      )
+      return TasksResponse.FromAPI({
+        items: [],
+        hasPrev: false,
+        hasNext: false,
+        page: currentPage,
+        pages: 0,
+        perPage: 0,
+      })
+    }
+
+    const data = await response.json()
+    return TasksResponse.FromAPI(data)
+  }
+
+  @Query(() => TasksResponse)
+  public async search(
+    @Ctx() { fastlaneClient }: AppContext,
+    @Arg('query') query: string,
+    @Arg('page', { nullable: true }) page?: number,
+  ): Promise<TasksResponse> {
+    let currentPage = 1
+    if (!!page) {
+      currentPage = page
+    }
+
+    const tasks: Task[] = []
+    const response = await fastlaneClient.get('search', {
+      query,
+      page: currentPage,
+    })
+    if (response.status !== 200) {
+      console.log(
+        `Response returned status ${
+          response.status
+        } and text ${await response.text()}`,
+      )
+      return TasksResponse.FromAPI({
+        items: [],
+        hasPrev: false,
+        hasNext: false,
+        page: currentPage,
+        pages: 0,
+        perPage: 0,
+      })
+    }
+    const data = await response.json()
+    return TasksResponse.FromAPI(data)
   }
 
   @FieldResolver()
