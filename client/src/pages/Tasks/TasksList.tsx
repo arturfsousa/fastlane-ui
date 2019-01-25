@@ -48,7 +48,7 @@ const TaskList = ({ tasks }: TaskListProps) => {
   const rows: React.ReactNode[][] = []
   tasks.forEach(({ taskId, createdAt, lastModifiedAt }: Task) => {
     rows.push([
-      <Link key={`task-item-${taskId}`} url="https://www.example.com">
+      <Link key={`task-item-${taskId}`} url={`/tasks/${taskId}`}>
         {taskId}
       </Link>,
       createdAt,
