@@ -1,20 +1,9 @@
 import React from 'react'
-import { Autocomplete, Button, Icon } from '@shopify/polaris'
+import { Button, Input, Icon } from 'antd'
 import { Link } from '@reach/router'
 
 import logo from '../fastlane.svg'
 import './Header.css'
-
-const doSome = () => {}
-
-const textField = (
-  <Autocomplete.TextField
-    label=""
-    prefix={<Icon source="search" color="inkLighter" />}
-    placeholder="Search"
-    onChange={doSome}
-  />
-)
 
 const Header = () => (
   <header className="FastlaneUI-Header">
@@ -29,17 +18,15 @@ const Header = () => (
     </div>
     <nav className="FastlaneUI-Header__Nav">
       <div className="FastlaneUI-Header__Nav__Search">
-        <Autocomplete
-          onSelect={doSome}
-          selected={[]}
-          options={[]}
-          textField={textField}
+        <Input
+          size="large"
+          suffix={<Icon type="search" className="certain-category-icon" />}
         />
       </div>
       <div className="FastlaneUI-Header__Nav__Actions">
-        <Link to="/enqueue">
-          <Button primary={true}>Enqueue new job</Button>
-        </Link>
+        <Button type="primary" size="large">
+          <Link to="/enqueue">Enqueue new job</Link>
+        </Button>
       </div>
     </nav>
   </header>

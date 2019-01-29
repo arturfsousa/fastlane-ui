@@ -1,8 +1,8 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { ChildDataProps, graphql } from 'react-apollo'
-import { Card, DataTable, Link, Spinner } from '@shopify/polaris'
-import NoResults from '../../components/NoResults'
+import { Button, Empty, Skeleton, Table } from 'antd'
+import { Link } from '@reach/router'
 
 const tasksQuery = gql`
   {
@@ -45,37 +45,63 @@ type TaskListProps = {
 }
 
 const TaskList = ({ tasks }: TaskListProps) => {
-  const rows: React.ReactNode[][] = []
-  tasks.forEach(({ taskId, createdAt, lastModifiedAt }: Task) => {
-    rows.push([
-      <Link key={`task-item-${taskId}`} url={`/tasks/${taskId}`}>
-        {taskId}
-      </Link>,
-      createdAt,
-      lastModifiedAt,
-    ])
+  const columns = [
+    {
+      title: 'Task Id',
+      dataIndex: 'taskId',
+      key: 'taskId',
+      render: (text: string) => <Link to={`/tasks/${text}`}>{text}</Link>,
+    },
+    {
+      title: 'Created at',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      width: 300,
+    },
+    {
+      title: 'Modified at',
+      dataIndex: 'lastModifiedAt',
+      key: 'lastModifiedAt',
+      width: 300,
+    },
+  ]
+
+  const data: any = []
+  tasks.forEach((task, i) => {
+    data.push({
+      key: i,
+      taskId: task.taskId,
+      createdAt: task.createdAt,
+      lastModifiedAt: task.lastModifiedAt,
+    })
   })
 
-  return (
-    <div>
-      <Card>
-        <DataTable
-          columnContentTypes={['text', 'text', 'text']}
-          headings={['Name', 'Created', 'Updated']}
-          rows={rows}
-        />
-      </Card>
-    </div>
-  )
+  return <Table columns={columns} dataSource={data} pagination={false} />
 }
 
 export default withTasks(({ data: { loading, tasks, error } }) => {
-  if (loading) return <Spinner size="large" color="teal" />
+  if (loading)
+    return <Skeleton loading={true} active={true} paragraph={{ rows: 3 }} />
   if (error || !tasks) return <h1>ERROR</h1>
   const { items } = tasks
   return (
     <div className="FastlaneUI-TasksList">
-      {items && items.length > 0 ? <TaskList tasks={items} /> : <NoResults />}
+      {items && items.length > 0 ? (
+        <TaskList tasks={items} />
+      ) : (
+        <Empty
+          description={
+            <span>
+              You didn't create any tasks yet. You can create one by enqueuing a
+              new job. Click the button bellow to do it.
+            </span>
+          }
+        >
+          <Button type="primary" size="large">
+            Enqueue new job
+          </Button>
+        </Empty>
+      )}
     </div>
   )
 })

@@ -9,7 +9,6 @@ import TaskEnqueuePage from './pages/Tasks/TaskEnqueuePage'
 import TaskDetailsPage from './pages/Tasks/TaskDetailsPage'
 
 import './index.css'
-import '@shopify/polaris/styles.css'
 
 const client = new ApolloClient({
   uri: process.env.FASTLANE_GRAPHQL_URL || 'http://localhost:4000/graphql',
