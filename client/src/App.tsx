@@ -1,7 +1,6 @@
 import React, { ReactNode, Component } from 'react'
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
-import { AppProvider } from '@shopify/polaris'
 import { Router, RouteComponentProps } from '@reach/router'
 
 import TasksPage from './pages/Tasks/TasksPage'
@@ -55,21 +54,19 @@ class App extends Component {
   render() {
     return (
       <ApolloProvider client={client}>
-        <AppProvider>
-          <div className="FastlaneUI">
-            <Router>
-              <Page path="/" pageComponent={<TasksPage />} />
-              <Page path="/enqueue" pageComponent={<TaskEnqueuePage />} />
-              <Page path="/enqueue" pageComponent={<div>enqueue page</div>} />
-              <Page
-                path="/tasks/:taskId"
-                pageFunction={(props: TaskDetailsProps): JSX.Element => (
-                  <TaskDetailsPage {...props} />
-                )}
-              />
-            </Router>
-          </div>
-        </AppProvider>
+        <div className="FastlaneUI">
+          <Router>
+            <Page path="/" pageComponent={<TasksPage />} />
+            <Page path="/enqueue" pageComponent={<TaskEnqueuePage />} />
+            <Page path="/enqueue" pageComponent={<div>enqueue page</div>} />
+            <Page
+              path="/tasks/:taskId"
+              pageFunction={(props: TaskDetailsProps): JSX.Element => (
+                <TaskDetailsPage {...props} />
+              )}
+            />
+          </Router>
+        </div>
       </ApolloProvider>
     )
   }
