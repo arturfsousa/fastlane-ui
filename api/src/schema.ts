@@ -5,7 +5,7 @@ import { buildSchema } from 'type-graphql'
 export const createSchema = async () => {
   return await buildSchema({
     resolvers: [`${__dirname}/modules/**/*Resolver.ts`],
-    dateScalarMode: 'isoDate', // "timestamp" or "isoDate"
+    dateScalarMode: 'isoDate',
     scalarsMap: [{ type: GraphQLJSON, scalar: GraphQLJSON }],
   })
 }

@@ -19,16 +19,19 @@ const tasksQuery = `
 `
 
 describe('TaskResolver', () => {
-  it('get tasks TasksResponse', async () => {
-    const tasksResp = {
+  let tasksResp: any
+  let tasks: any
+
+  beforeAll(async () => {
+    tasksResp = {
       hasNext: false,
       hasPrev: false,
       items: [
         {
-          createdAt: '2019-01-29T01:28:46.882000',
-          jobsCount: 1,
-          lastModifiedAt: '2019-01-29T01:28:46.882000',
           taskId: 'hello-world',
+          jobsCount: 1,
+          createdAt: new Date('2019-01-29T01:28:46.882000'),
+          lastModifiedAt: new Date('2019-01-29T01:28:46.882000'),
           url: 'http://localhost:10000/tasks/hello-world/',
         },
       ],
@@ -40,9 +43,7 @@ describe('TaskResolver', () => {
       total: 1,
     }
 
-    const {
-      data: { tasks },
-    } = await graphCall({
+    const resp = await graphCall({
       source: tasksQuery,
       fastlaneClient: {
         get: jest.fn().mockResolvedValue({
@@ -52,6 +53,10 @@ describe('TaskResolver', () => {
       },
     })
 
+    tasks = resp.data.tasks
+  })
+
+  it('get tasks', async () => {
     expect(tasks.items).toHaveLength(1)
     expect(tasks.perPage).toBe(tasksResp.perPage)
     expect(tasks.totalPages).toBe(tasksResp.pages)
@@ -62,38 +67,6 @@ describe('TaskResolver', () => {
   })
 
   it('get tasks items', async () => {
-    const tasksResp = {
-      hasNext: false,
-      hasPrev: false,
-      items: [
-        {
-          createdAt: '2019-01-29T01:28:46.882000',
-          jobsCount: 1,
-          lastModifiedAt: '2019-01-29T01:28:46.882000',
-          taskId: 'hello-world',
-          url: 'http://localhost:10000/tasks/hello-world/',
-        },
-      ],
-      nextUrl: null,
-      page: 1,
-      pages: 1,
-      perPage: 10,
-      prevUrl: null,
-      total: 1,
-    }
-
-    const {
-      data: { tasks },
-    } = await graphCall({
-      source: tasksQuery,
-      fastlaneClient: {
-        get: jest.fn().mockResolvedValue({
-          status: 200,
-          json: jest.fn().mockResolvedValue(tasksResp),
-        }),
-      },
-    })
-
     const task = tasks.items[0]
     const taskRespItem = tasksResp.items[0]
 
