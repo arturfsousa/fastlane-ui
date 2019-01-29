@@ -17,7 +17,9 @@ export class FastlaneClient {
     return await this.fetch(path, {
       method: 'POST',
       body,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
   }
 
@@ -25,7 +27,9 @@ export class FastlaneClient {
     return await this.fetch(path, {
       method: 'PUT',
       body,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
   }
 
@@ -36,10 +40,6 @@ export class FastlaneClient {
   ): Promise<Response> {
     const url = new URL(`${this.apiUrl}/${path}/`)
     Object.keys(qs).forEach(key => url.searchParams.append(key, qs[key]))
-
-    console.log(
-      `Submitting ${init.method} to ${url} (request body: ${init.body})...`,
-    )
     return await fetch(url.toString(), init)
   }
 }

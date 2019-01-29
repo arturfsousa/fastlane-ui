@@ -1,5 +1,4 @@
 import originalFetch from 'node-fetch'
-
 import { FastlaneClient } from './fastlane'
 
 const envVars = { ...process.env }
@@ -19,40 +18,36 @@ afterEach(() => {
 
 describe('FastlaneClient', () => {
   describe('fetch', () => {
-    test('should mount the url from the path', async () => {
+    it('should mount the url from the path', async () => {
       const client = new FastlaneClient()
-      const response = await client.fetch('tasks')
-      expect(response).not.toBeNull()
+      const resp = await client.fetch('tasks')
+      expect(resp).not.toBeNull()
       expect(fetch).toBeCalledWith('http://localhost:10000/tasks/', {})
     })
 
-    test('should override apiUrl from env', async () => {
+    it('should override apiUrl from env', async () => {
       process.env.FASTLANE_API_URL = 'http://someother:9090'
 
       const client = new FastlaneClient()
-      const response = await client.fetch('tasks')
-      expect(response).not.toBeNull()
+      const resp = await client.fetch('tasks')
+      expect(resp).not.toBeNull()
       expect(fetch).toBeCalledWith('http://someother:9090/tasks/', {})
     })
 
-    test('should mount the url with querystring', async () => {
+    it('should mount the url with a querystring', async () => {
       const client = new FastlaneClient()
-      const response = await client.fetch(
-        'tasks',
-        {},
-        { page: 1, filter: 'name' },
-      )
-      expect(response).not.toBeNull()
+      const resp = await client.fetch('tasks', {}, { page: 1, filter: 'name' })
+      expect(resp).not.toBeNull()
       expect(fetch).toBeCalledWith(
         'http://localhost:10000/tasks/?page=1&filter=name',
         {},
       )
     })
 
-    test('should pass init props to fetch', async () => {
+    it('should pass init props to fetch', async () => {
       const client = new FastlaneClient()
-      const response = await client.fetch('tasks/some-id', { method: 'DELETE' })
-      expect(response).not.toBeNull()
+      const resp = await client.fetch('tasks/some-id', { method: 'DELETE' })
+      expect(resp).not.toBeNull()
       expect(fetch).toBeCalledWith('http://localhost:10000/tasks/some-id/', {
         method: 'DELETE',
       })
@@ -60,19 +55,19 @@ describe('FastlaneClient', () => {
   })
 
   describe('get', () => {
-    test('should do a GET request', async () => {
+    it('should do a GET request', async () => {
       const client = new FastlaneClient()
-      const response = await client.get('tasks')
-      expect(response).not.toBeNull()
+      const resp = await client.get('tasks')
+      expect(resp).not.toBeNull()
       expect(fetch).toBeCalledWith('http://localhost:10000/tasks/', {
         method: 'GET',
       })
     })
 
-    test('should do a GET request with querystring', async () => {
+    it('should do a GET request with querystring', async () => {
       const client = new FastlaneClient()
-      const response = await client.get('tasks', { name: 'some-task' })
-      expect(response).not.toBeNull()
+      const resp = await client.get('tasks', { name: 'some-task' })
+      expect(resp).not.toBeNull()
       expect(fetch).toBeCalledWith(
         'http://localhost:10000/tasks/?name=some-task',
         {
@@ -83,47 +78,63 @@ describe('FastlaneClient', () => {
   })
 
   describe('post', () => {
-    test('should do a POST request', async () => {
+    it('should do a POST request', async () => {
       const client = new FastlaneClient()
-      const response = await client.post('tasks')
-      expect(response).not.toBeNull()
+      const resp = await client.post('tasks', JSON.stringify({}))
+      expect(resp).not.toBeNull()
       expect(fetch).toBeCalledWith('http://localhost:10000/tasks/', {
         method: 'POST',
-        body: {},
+        body: '{}',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
     })
 
-    test('should do a POST request with body', async () => {
+    it('should do a POST request with body', async () => {
       const client = new FastlaneClient()
-      const body = { name: 'some-task' }
-      const response = await client.post('tasks', body)
-      expect(response).not.toBeNull()
+      const body = JSON.stringify({
+        name: 'some-task',
+      })
+      const resp = await client.post('tasks', body)
+      expect(resp).not.toBeNull()
       expect(fetch).toBeCalledWith('http://localhost:10000/tasks/', {
         method: 'POST',
         body,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
     })
   })
 
   describe('put', () => {
-    test('should do a PUT request', async () => {
+    it('should do a PUT request', async () => {
       const client = new FastlaneClient()
-      const response = await client.put('tasks')
-      expect(response).not.toBeNull()
+      const resp = await client.put('tasks', JSON.stringify({}))
+      expect(resp).not.toBeNull()
       expect(fetch).toBeCalledWith('http://localhost:10000/tasks/', {
         method: 'PUT',
-        body: {},
+        body: '{}',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
     })
 
-    test('should do a PUT request with body', async () => {
+    it('should do a PUT request with body', async () => {
       const client = new FastlaneClient()
-      const body = { name: 'some-task' }
-      const response = await client.put('tasks', body)
-      expect(response).not.toBeNull()
+      const body = JSON.stringify({
+        name: 'some-task',
+      })
+      const resp = await client.put('tasks', body)
+      expect(resp).not.toBeNull()
       expect(fetch).toBeCalledWith('http://localhost:10000/tasks/', {
         method: 'PUT',
         body,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
     })
   })

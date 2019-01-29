@@ -1,37 +1,106 @@
 import { graphCall } from '../../test-utils/graphql'
 
 const tasksQuery = `
-  {
-    tasks {
-      taskId
+{
+  tasks {
+    perPage
+    totalPages
+    hasNextPage
+    hasPrevPage
+    nextPage
+    prevPage
+    items {
+    	taskId
       createdAt
       lastModifiedAt
-    }
+  	}
   }
+}
 `
 
 describe('TaskResolver', () => {
-  test('get tasks', async () => {
-    const task = {
-      taskId: 'some-task',
-      createdAt: 1548344092.098,
-      lastModifiedAt: 1548344092.098,
+  it('get tasks TasksResponse', async () => {
+    const tasksResp = {
+      hasNext: false,
+      hasPrev: false,
+      items: [
+        {
+          createdAt: '2019-01-29T01:28:46.882000',
+          jobsCount: 1,
+          lastModifiedAt: '2019-01-29T01:28:46.882000',
+          taskId: 'hello-world',
+          url: 'http://localhost:10000/tasks/hello-world/',
+        },
+      ],
+      nextUrl: null,
+      page: 1,
+      pages: 1,
+      perPage: 10,
+      prevUrl: null,
+      total: 1,
     }
 
-    const { data } = await graphCall({
+    const {
+      data: { tasks },
+    } = await graphCall({
       source: tasksQuery,
       fastlaneClient: {
         get: jest.fn().mockResolvedValue({
-          items: [task],
+          status: 200,
+          json: jest.fn().mockResolvedValue(tasksResp),
         }),
       },
     })
 
-    expect(data.tasks).toHaveLength(1)
-    expect(data.tasks[0]).toMatchObject({
-      taskId: task.taskId,
-      createdAt: new Date(task.createdAt * 1000).toISOString(),
-      lastModifiedAt: new Date(task.lastModifiedAt * 1000).toISOString(),
+    expect(tasks.items).toHaveLength(1)
+    expect(tasks.perPage).toBe(tasksResp.perPage)
+    expect(tasks.totalPages).toBe(tasksResp.pages)
+    expect(tasks.hasNextPage).toBe(tasksResp.hasNext)
+    expect(tasks.hasPrevPage).toBe(tasksResp.hasPrev)
+    expect(tasks.nextPage).toBe(1)
+    expect(tasks.prevPage).toBe(1)
+  })
+
+  it('get tasks items', async () => {
+    const tasksResp = {
+      hasNext: false,
+      hasPrev: false,
+      items: [
+        {
+          createdAt: '2019-01-29T01:28:46.882000',
+          jobsCount: 1,
+          lastModifiedAt: '2019-01-29T01:28:46.882000',
+          taskId: 'hello-world',
+          url: 'http://localhost:10000/tasks/hello-world/',
+        },
+      ],
+      nextUrl: null,
+      page: 1,
+      pages: 1,
+      perPage: 10,
+      prevUrl: null,
+      total: 1,
+    }
+
+    const {
+      data: { tasks },
+    } = await graphCall({
+      source: tasksQuery,
+      fastlaneClient: {
+        get: jest.fn().mockResolvedValue({
+          status: 200,
+          json: jest.fn().mockResolvedValue(tasksResp),
+        }),
+      },
     })
+
+    const task = tasks.items[0]
+    const taskRespItem = tasksResp.items[0]
+
+    expect(task.taskId).toBe(taskRespItem.taskId)
+    expect(task.createdAt).toBe(new Date(taskRespItem.createdAt).toISOString())
+    expect(task.lastModifiedAt).toBe(
+      new Date(taskRespItem.lastModifiedAt).toISOString(),
+    )
   })
 })
